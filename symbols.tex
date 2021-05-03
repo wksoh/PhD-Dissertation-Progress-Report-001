@@ -1,0 +1,93 @@
+\chapter*{List of Symbols}
+\addcontentsline{toc}{chapter}{List of Symbols}
+%\thispagestyle{plain}
+
+\begin{longtable}[ht]{lll}
+			$\mathbf{A}_{i}$								&  & time varying transformation matrix\\ 
+			$\alpha_{i}$										&  & twist angle of link $i$ [rad]\\
+			$\mathbf{C}_{r}(\mathbf{q},\mathbf{\dot{q}})$	&  & Coriolis/centrifugal matrix of rigid joint manipulator\\
+			$\mathbf{C}_{ij}$								&  & homogeneous transformation matrix\\
+			$c_{ijk}$												&  & Christoffel symbols\\
+			$d_{i}$													&  & offset distance of link $i$ [m]\\
+			$\delta$												&  & scalar multiplying $\mathbf{K}_{ri}(t)$\\ 
+			$\delta_{d}$										&  & scalar multiplying $\mathbf{K}_{di}(t)$\\ 
+			$\delta_{p}$										&  & scalar multiplying $\mathbf{K}_{pi}(t)$\\ 
+			$e_{x}$													&  & x position tracking error, $x_{ref}-x$ [m]\\ 
+			$e_{y}$													&  & y position tracking error, $y_{ref}-y$ [m]\\ 
+			$g$															&  & gravitational acceleration [m/s$^2$]\\
+			$\mathbf{g}$										&  & gravitational acceleration vector\\
+			$\mathbf{\Gamma}_{i}$						&	 & positive definite integral weighting matrix\\
+			$\Gamma_{i}$										&	 & integral weighting coefficient\\		
+			$\Gamma_{di}$										&	 & weighting coefficient multiplying $\mathbf{K}_{di}(t)$\\
+			$\Gamma_{dp}$   								&	 & weighting coefficient multiplying $\mathbf{K}_{dp}(t)$\\
+			$\mathbf{\Gamma}_{p}$   				&	 & positive semi-definite proportional weighting matrix\\
+			$\Gamma_{p}$   									&	 & proportional weighting coefficient\\
+			$\Gamma_{pi}$										&	 & weighting coefficient multiplying $\mathbf{K}_{pi}(t)$\\
+			$\Gamma_{pp}$   								&	 & weighting coefficient multiplying $\mathbf{K}_{pp}(t)$\\
+			$I_{i}$												  &  & moment of inertia of link $i$ [kg m$^2$]\\
+			$\mathbf{I}$										&  & identity matrix\\
+			$\mathbf{J}(\mathbf{q})$				&  & Jacobian matrix of rigid joint manipulator\\
+			$\mathbf{J}_{m}$								&  & motor inertia matrix\\
+			$\mathbf{J}_{\omega}(\mathbf{q})$	&  & angular velocity component of the Jacobian matrix\\
+			$\mathbf{J}_{v}(\mathbf{q})$		&  & linear velocity component of the Jacobian matrix\\
+			$\mathbf{k}$										&  & joint stiffness matrix\\
+			$\mathbf{K}_{d}$								&  & constant derivative gain matrix\\
+			$\mathbf{K}_{d}(t)$							&  & adaptive derivative gain matrix\\
+			$\mathbf{K}_{di}(t)$						&  & integral component of the adaptive derivative gain matrix\\
+			$\mathbf{K}_{dp}(t)$						&  & proportional component of the adaptive derivative gain matrix\\
+			$K_{e}(t)$											&  & component of the adaptive gain vector multiplying $e$\\			
+			$\mathbf{K}_{p}$								&  & constant proportional gain matrix\\
+			$\mathbf{K}_{p}(t)$							&  & adaptive proportional gain matrix\\
+			$\mathbf{K}_{pi}(t)$						&  & integral component of the adaptive proportional gain matrix\\
+			$\mathbf{K}_{pp}(t)$						&  & proportional component of the adaptive proportional gain matrix\\
+			$\mathbf{K}_{r}(t)$							&  & adaptive gain vector\\
+			$\mathbf{K}_{ri}(t)$						&  & integral component of the adaptive gain vector\\
+			$K_{ri}(t)$											&  & integral component of the adaptive gain multiplying $e$\\
+			$\mathbf{K}_{rp}(t)$						&  & proportional component of the adaptive gain vector\\
+			$K_{rp}(t)$											&  & proportional component of the adaptive gain multiplying $e$\\
+			$K_{um}(t)$											&  & component of the adaptive gain vector multiplying $u_{m}$\\
+			$K_{xm}(t)$											&  & component of the adaptive gain vector multiplying $\mathbf{x}_{m}$\\
+			$k_{i}$													&  & stiffness coefficient of joint $i$\\
+			$L$															&  & Lagrangian function\\
+			$l_{i}$													&  & length of link $i$ [m]\\
+			$l_{ci}$												&  & distance from previous joint to the center of gravity of link $i$ [m]\\
+			$m_{i}$													&  & mass of link $i$ [kg]\\
+			$\mathbf{M}_{r}(\mathbf{q})$		&  & rigid joint manipulator inertia matrix\\
+			${M}_{ij}$											&  & component of rigid joint manipulator inertia matrix\\
+			$n$															&  & number of degrees of freedom\\
+			$n_{m}$													&  & reference model order\\
+			$o_{i}$													&  & origin of reference frame $i$\\ 
+			$\mathbf{\omega}_{i}$						&  & angular velocity vector of link $i$ [rad/s]\\
+			$\omega_{n}$										&  & reference model natural frequency [rad/s]\\ 
+			$\mathbf{q}$										&  & generalized coordinate vector\\
+			$\mathbf{q}_{c}$								&  & commanded link angle vector\\
+			$q_{i}$													&  & $i$th generalized coordinate and $i$th link angle [rad]\\
+			$\mathbf{q}_{m}$								&  & motor shaft angle vector\\
+			$q_{mi}$												&  & $i$th motor shaft angle [rad]\\
+			$\mathbf{r}$										&	 & signal vector multiplying $\mathbf{K}_{r}(t)$\\
+			$\mathbf{r}_{ci}$								&  & center of gravity position vector of link $i$\\
+			$\mathbf{\tau}$									&  & control torque vector\\
+			$\tau_{i}$											&  & control torque acting on joint $i$ [Nm]\\
+			$\mathbf{\theta}$							  &  & state vector comprising the link and motor angles\\
+			$T$															&  & total kinetic energy of flexible joint manipulator [J]\\
+			$T_{r}$													&  & total kinetic energy of rigid joint manipulator [J]\\
+			$T_{r\omega}$										&  & rotational kinetic energy of rigid joint manipulator [J]\\
+			$T_{rv}$												&  & translational kinetic energy of rigid joint manipulator [J]\\
+			$U$															&  & total potential energy of flexible joint manipulator [J]\\
+			$U_{r}$													&  & total potential energy of rigid joint manipulator [J]\\
+			$u_{m}$													&  & reference model input signal\\
+			$\mathbf{v}_{i}$								&  & linear velocity vector of link $i$ [m/s]\\
+			$x$															&  & actual x position of the end effector [m]\\
+			$x_{c}$													&  & commanded x position of the end effector [m]\\
+			$x_{e}$													&  & x position control error, $x_{c}-x$ [m]\\
+			$x_{ref}$												&  & reference model x position of the end effector [m]\\
+			$\mathbf{x}_{m}$								&  & reference model state vector\\
+			$x_{i}$													&  & $x$ coordinate of reference frame $i$\\
+			$y$															&  & actual y position of the end effector [m]\\
+			$y_{c}$													&  & commanded y position of the end effector [m]\\
+			$y_{e}$													&  & y position control error, $y_{c}-y$ [m]\\
+			$y_{ref}$												&  & reference model y position of the end effector [m]\\
+			$y_{i}$													&  & $y$ coordinate of reference frame $i$\\
+			$\zeta$													&  & reference model damping ratio\\
+			$z_{i}$													&  & $z$ coordinate of reference frame $i$\\
+\end{longtable}
