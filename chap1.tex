@@ -75,9 +75,9 @@ Situational awareness and proximity sensing are also critical in satellite forma
 
 The underlining denominator for all scenarios outlined for a spacecraft with respect to another, is a close-loop event that can be synthesized into three processes; 1) situational or proximity awareness (sense), 2) task planning (reasoning or control); and 3) task execution (actuation). Within situational or proximity awareness, the term pose estimation is frequently used. Specifically, pose represents the combination of the \textit{position} and \textit{orientation} of an object \italic{relative} to another object, or reference point within a defined coordinate system \cite{PrezVillar2017SpacecraftPE} .  Pose estimation is the specific task of determining the pose of an object using proximity sensors. The pose estimation are distinct for each scenario that the spacecraft needs to operate, which can be summarized as follows:
 \begin{enumerate}
-    \item Collision avoidance; 
-    \item Cooperative (OSS) and Non-Cooperative (ADR, Asteroid) rendezvous; 
-    \item Cooperative docking (OSS)  and Non-Cooperative capture (ADR, Asteroid); and
+    \item Cooperative and non-cooperative Collision avoidance; 
+    \item Cooperative (OSS) and non-cooperative (ADR, Asteroid) rendezvous; 
+    \item Cooperative contact (OSS)  and non-cooperative contact (ADR, Asteroid); and
     \item Formation Flying.
 \end{enumerate}
 
@@ -99,7 +99,7 @@ Note the term determination is broadly used in literature to include estimation.
 
 Both the deterministic and probabilistic approaches are reliant on sensor performances that depend on the physical principal of the system and quality of the components. For example, visual cameras are dictated by the physical optics (aperture size, focal length, lenses curvature and surface finish), detectors (pitch length, radiometric sensitivity) and read-out electronics (integration time, analogue digital conversion, clock frequency). For a Global Navigation Satellite System (GNSS) receiver mounted on both space assets to determine relative position, i.e. differential GNSS techniques, the position telemetry depend on the performance of the GNSS antenna gain, temperature and line noise, and electronic  acquisition, tracking and FPGA navigation processing. These sensors are cost sensitive, where better performance detectors and electronics will cost higher \cite{hashim2021attitude}. The inherent sensor noise that exist decreases pose determination accuracy. Hence a deterministic pose approach is shackled to the sensor noise unless algorithm data processing and filtering are employed to improve accuracy\cite{OpromollaPose17}.
 
-A probabilistic approach uses probability techniques to minimize the difference between the state models (the estimate) to the actual sensor measurements, i.e. a cost function regression exercise. The ubiquitous Kalman filter (KF) used in  aerospace guidance, navigation, attitude and orbit estimation is simply a weighted recursive least square coupled to a state space dynamic model 'propelled' by propagating and correcting the process and measurement noise variance \cite{franklinDigitalControl97}. The recursive framework is important for real-time implementation onboard the spacecraft, versus batch post processing and the statistical approach assumes a normal Gaussian distribution for both the process and measurement noise - which are idealistic in reality. For pose estimation, the state dynamics are non-linear. Similarly the pose sensor physical measurements mapped to the estimated states can be non-linear, which violates the linear assumption of the Kalman Filter. Hence a local linearization of the state transition matrix and the measurement matrix are required at each time-step. This approach is sup-optimal as the state transition matrix for example relies on a Taylor series expansion and the idealistic Gaussian noises. In most implementation cases; the Taylor series is truncated and only the first two dominant terms are considered but the Gaussian noises are still assumed \cite{franklinDigitalControl97,cavenagoEkfHighOrder19}. This version is called the Extended Kalman filter (EKF) and serves well in most benign orbit position and orientation (attitude) estimation. The dynamic range of the space asset operating in the three broad scenarios described in Section \ref{CHAP1_1} from km to m in range however, produces a time variant noise that in most formulations of the EKF are considered static in nature. This limits the utilization of the EKF pose estimation to within well defined noise envelopes i.e., a 'near-field' environment. Unlike co-operative targets that would provide active markers \cite{OpromollaPose17}, space assets approaching non-cooperative targets are solely dependant on the pose sensor performance. Ideally, pose estimation should be inclusive of both the' near-field' and 'far-field' pose sensor measurement environment i.e., as the spacecraft approaches from . This essentially improves situational awareness during all phases of the space asset approaching the target, improving task planning and optimizing task execution i.e., reducing delta-V, the propellant required to complete the entire closed-loop process for estimating the proximity of other space assets, rendezvous and docking, and formation flying.
+A probabilistic approach uses probability techniques to minimize the difference between the state models (the estimate) to the actual sensor measurements, i.e. a cost function regression exercise. The ubiquitous Kalman filter (KF) used in  aerospace guidance, navigation, attitude and orbit estimation is simply a weighted recursive least square coupled to a state space dynamic model 'propelled' by propagating and correcting the process and measurement noise variance \cite{franklinDigitalControl97}. The recursive framework is important for real-time implementation onboard the spacecraft, versus batch post processing and the statistical approach assumes a normal Gaussian distribution for both the process and measurement noise - which are idealistic in reality. For pose estimation, the state dynamics are non-linear. Similarly the pose sensor physical measurements mapped to the estimated states can be non-linear, which violates the linear assumption of the Kalman Filter. Hence a local linearization of the state transition matrix and the measurement matrix are required at each time-step. This approach is sup-optimal as the state transition matrix for example relies on a Taylor series expansion and the idealistic Gaussian noises. In most implementation cases; the Taylor series is truncated and only the first two dominant terms are considered but the Gaussian noises are still assumed \cite{franklinDigitalControl97,cavenagoEkfHighOrder19}. This version is called the Extended Kalman filter (EKF) and serves well in most benign orbit position and orientation (attitude) estimation. The dynamic range of the space asset operating in the three broad scenarios described in Section \ref{CHAP1_1} from km to m in range however, produces a time variant noise that in most formulations of the EKF are considered static in nature. This limits the utilization of the EKF pose estimation to within well defined noise envelopes i.e., a near range environment. Unlike co-operative targets that would provide active markers \cite{OpromollaPose17}, space assets approaching non-cooperative targets are solely dependant on the pose sensor performance. Ideally, pose estimation should be inclusive of both the'near range and far range pose sensor measurement environment i.e., as the spacecraft approaches from a few km to within meters or centemeters for direct contact. This essentially improves situational awareness during all phases of the space asset approaching the target, improving task planning and optimizing task execution i.e., reducing delta-V, the propellant required to complete the entire closed-loop process for estimating the proximity of other space assets, rendezvous and docking, and formation flying.
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Previous Work
@@ -143,7 +143,7 @@ ML however are not without its drawbacks. The probabilistic nature does not alwa
 
 The goal of this research is to develop a modular autonomous enhanced situational awareness technology for a space asset pose.
 
-The primary objective of this thesis is to develop a near real-time EKF-NN for estimating the pose of a chaser spacecraft with respect to a tumbling uncooperative target object. Specifically, the EKF process and measurement noise covariances will be adapted using a Neural Network (NN), as function of the varying separation between both vehicles throughout a realistic mission profile; from far-range approach to close-range rendezvous and docking maneuvers (see Figure \ref{fig:rendezvousPhase}). The EKF-NN design, referred to as the Space Machine Attitude and oRbit inTelligence (SMART), assumes arbitrary computer vision algorithms will provide a rough pose measurement inputs (computer vision algorithms will not be the focus of this research). The expectation is that SMART will operate in any pose scenario, not be bounded by a pre-defined dynamic model and will only be constrained by the onboard processor performance, timing, sampling frequencies, and sensor characteristics.
+The primary objective of this thesis is to develop a near real-time EKF-NN for estimating the relative pose of a chaser spacecraft with respect to a tumbling uncooperative target spacecraft. Specifically, the EKF process and measurement noise covariances will be adapted using a Neural Network (NN), as function of the varying separation between both vehicles throughout a representative mission profile; from far-range approach to close-range rendezvous and contact (see Figure \ref{fig:rendezvousPhase}). The EKF-NN design, referred to as the Space Machine Attitude and oRbit inTelligence (SMART), assumes arbitrary computer vision algorithms will provide a rough pose measurement inputs (computer vision algorithms will not be the focus of this research). The expectation is that SMART will operate in any pose scenario, not be bounded by a pre-defined dynamic model and will only be constrained by the onboard processor performance, timing, sampling frequencies, and sensor characteristics.
 
 %Secondary objective: Research and develop an autonomous close-loop target tracking provided by the SMART, using %Reinforced Learning (RL). 
 
@@ -173,23 +173,27 @@ The preliminary research schedule will be aligned to seven (7) academic terms wi
     \item Term 1 (Spring 21):  Perform literature review and generate chapter 1 of dissertation. Develop test algorithms.
     Deliverable: D1.1 Dissertation Chapter 1, D2.1: Test built
 
-    \item Term 2 (Summer 21):  Develop preliminary EKF-ANN. Development of a reference attitude and body rate (6 DOF) simulator.  
+    \item Term 2 (Summer 21):  Develop preliminary EKF-NN. Development pose (6 DOF) simulator.  
     Deliverable: D1.2 Dissertation Chapter 2, D2.2 AttDet Algorithm built 
 
-    \item Term 3 (Fall 21): Deploy the algorithm in HIL Testbench
+    \item Term 3 (Fall 21): Optimize EKF-NN. Development pose EO scenario.  
     Deliverable: D1.3 Dissertation Chapter 3, D2.3 AttDet Algorithm built, D3.3 Journal paper 1 draft
+    
+    \item Term 4 (Winter 22): Deploy the algorithm in HIL Testbench
+    Deliverable: D1.4 Dissertation Chapter 3, D2.4 AttDet Algorithm built, D3.3 Journal paper 1 draft
+    
 
-    \item Term 4 (Winter 22): Review of data against TPM and optimize algorithm. Retest if needed. 
-    Deliverable: D1.4 Dissertation Chapter 4, D2.4 AttDet Algorithm built, D3.4 Journal paper 1 final
+    \item Term 5 (Spring 22): Review of data against TPM and optimize algorithm. Retest if needed. 
+    Deliverable: D1.4 Dissertation Chapter 4, D2.5 AttDet Algorithm built, D3.5 Journal paper 1 final
 
-    \item Term 5 (Spring 22): Complete Dissertation, update algorithm, generate journal paper 
-    Deliverable: D1.5 Dissertation Chapter 5, D2.5 AttDet Algorithm built, D3.5 Journal paper 2 draft
-
-    \item Term 6 (Summer 22): Complete Dissertation, update algorithm, generate journal paper
-    Deliverable: D1.5 Dissertation Chapter 6, D2.5 AttDet Algorithm built, D3.6 Journal paper 2 final
+    \item Term 6 (Summer 22): Complete Dissertation, update algorithm, generate journal paper 
+    Deliverable: D1.5 Dissertation Chapter 5, D2.6 AttDet Algorithm built, D3.6 Journal paper 2 draft
 
     \item Term 7 (Fall 22): Complete Dissertation, update algorithm, generate journal paper
-    Deliverable: D1.5 Dissertation Chapter 7, D3.7 Journal paper 3 draft and final
+    Deliverable: D1.6 Dissertation Chapter 6, D2.7 AttDet Algorithm built, D3.7 Journal paper 2 final
+
+    \item Term 8 (Winter 23): Complete Dissertation, update algorithm, generate journal paper
+    Deliverable: D1.7 Dissertation Chapter 7, D3.8 Journal paper 3 draft and final
 
 \end{enumerate}
 
