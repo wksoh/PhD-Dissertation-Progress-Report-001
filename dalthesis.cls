@@ -463,7 +463,7 @@
    \typeout{Unavoidable over/underfulls may occur in the first^^J%
             few pages of dalthesis. These can usually be ignored.^^J%
             However, if uncorrectable errors occur, notify staff.}
-   \pagenumbering{roman}
+   %\pagenumbering{roman}
    \pagestyle{plain}
    \dal@in@prefacetrue
    
